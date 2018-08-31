@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Sistem{% endblock %}
+
+{% block body %}
+<h2>Departments</h2><a href="/departments/new" type="button" class="btn btn-outline-success">Add departent</a>
+<table id="departments" class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Slug</th>
+      <th scope="col">Description</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for department in departments %}
+    <tr>
+     <td>{{department.name}}</td>
+     <td>{{department.slug}}</td>
+     <td>{{department.description}}</td>
+     <td><a href="/departments/edit/{{department.id}}" type="button" class="btn btn-outline-success">Edit</a>
+     <a href="/departments/delete/{{department.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="{{department.id}}">Delete</a></td>
+     <td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Employee{% endblock %}
+
+{% block body %}
+
+{# templates/employees/new.html.twig #}
+<h2>New Employees</h2>
+<br>
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+{% endblock %}

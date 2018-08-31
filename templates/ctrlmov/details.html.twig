@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Sistem{% endblock %}
+
+{% block body %}
+<h2>Amount Details</h2>
+<h4>{{ctrlmovs.employee}}</h4>
+<br>
+<p><h4>Date:</h4></p>
+<p>{{ctrlmovs.date|date('m-d-y h:i')}}</p>
+<p><h4>Amount:</h4></p>
+<p>{{ctrlmovs.amount|number_format(2,'.',',')}}</p>
+<p><h4>Description:</h4></p>
+<p>{{ctrlmovs.description}}</p>
+
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}

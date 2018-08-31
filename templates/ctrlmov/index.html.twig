@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Sistem{% endblock %}
+
+{% block body %}
+<h2>Amounts</h2><a href="/ctrlmov/new" type="button" class="btn btn-outline-success">Add Amount</a>
+<br>
+<table id="ctrlmov" class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Amount</th>
+      <th scope="col">Description</th>
+      <th scope="col">Employee</th>
+      <th scope="col">Date</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ctrlmov in ctrlmovs %}
+    <tr>
+     <td>{{ctrlmov.amount|number_format(2,'.',',')}}</td>
+     <td>{{ctrlmov.description}}</td>
+     <td>{{ctrlmov.employee}}</td>
+     <td>{{ctrlmov.date|date('m-d-y h:i')}}</td>
+	 <td><a href="/ctrlmov/details/{{ctrlmov.id}} type="button" class="btn btn-outline-success">Details</a></td>
+     <td><a href="/ctrlmov/edit/{{ctrlmov.id}}" type="button" class="btn btn-outline-success">Edit</a>
+     <a href="/ctrlmov/delete/{{ctrlmov.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Delete</a></td>
+     <td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}
+

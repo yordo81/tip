@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Sistem{% endblock %}
+
+{% block body %}
+<h2>Employees</h2><a href="/employees/new" type="button" class="btn btn-outline-success">Add employee</a>
+<br>
+<table id="employees" class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for employee in employees %}
+    <tr>
+     <td><a href="/employees/details/{{employee.id}}">{{employee.name}}</a></td>
+     <td>{{employee.lasname}}</td>
+     <td>{{employee.department}}</td>
+	  <td>
+     <a href="/employees/details/{{employee.id}}" type="button" class="btn btn-outline-success">Amounts</a>
+     <a href="/employees/edit/{{employee.id}}" type="button" class="btn btn-outline-success">Edit</a>
+     <a href="/employees/delete/{{employee.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Delete</a>
+    <td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}
