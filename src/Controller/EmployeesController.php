@@ -145,7 +145,7 @@ class EmployeesController extends AbstractController
         $employees = $this->getDoctrine()->getRepository
         (Employees::class)->find($id);
         
- 
+        
         return $this->render('/employees/details.html.twig', 
         array('ctrlmovs' => $crtlmovs, 'employees' => $employees));
 	}
