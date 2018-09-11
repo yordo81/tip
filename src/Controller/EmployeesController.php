@@ -144,10 +144,12 @@ class EmployeesController extends AbstractController
         (CtrlMov::class)->findByEmployee($id);
         $employees = $this->getDoctrine()->getRepository
         (Employees::class)->find($id);
-        
+
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumAmount($id);
+        //var_dump($query);die;
         
         return $this->render('/employees/details.html.twig', 
-        array('ctrlmovs' => $crtlmovs, 'employees' => $employees));
+        array('ctrlmovs' => $crtlmovs, 'employees' => $employees, 'query' => $query));
 	}
 
 }

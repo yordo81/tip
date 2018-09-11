@@ -4,7 +4,11 @@
 
 {% block body %}
 <h2>Employee</h2>
-<h4>{{employees.name ~" "~ employees.lasname}}:</h4>
+<h4>{{employees.name ~" "~ employees.lasname}}:
+{% for querys in query %}
+{{ querys.total|number_format(2,'.',',') }}
+{% endfor %}
+</h4>
 <br>
 <table id="employees" class="table">
   <thead class="thead-light">

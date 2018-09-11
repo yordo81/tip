@@ -47,4 +47,19 @@ class CtrlMovRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getSumAmount($id): array
+    {
+
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+                'SELECT SUM(p.amount) as total
+                FROM App\Entity\CtrlMov p
+                WHERE p.employee = :id'
+                )->setParameter('id', $id);
+
+    // returns an array of Product objects
+    return $query->execute();
+    }
 }
