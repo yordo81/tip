@@ -17,7 +17,7 @@ class CtrlMov
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      */
     private $amount;
 
@@ -42,12 +42,12 @@ class CtrlMov
         return $this->id;
     }
 
-    public function getAmount(): ?int
+    public function getAmount()
     {
         return $this->amount;
     }
 
-    public function setAmount(int $amount): self
+    public function setAmount($amount): self
     {
         $this->amount = $amount;
 

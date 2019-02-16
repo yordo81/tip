@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Departments;
+use App\Entity\Employees;
+use App\Entity\CtrlMov;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,13 +41,13 @@ class DepartmentsController extends AbstractController
 
         $form = $this->createFormBuilder($departments)
         ->add('name', TextType::class, array('required' => 'false',
-         'attr' =>array('class' => 'form-control')))
+         'attr' =>array('class' => 'form-control'), 'label' => 'Nombre'))
         ->add('slug', TextType::class, array('attr' =>
         array('class' => 'form-control')))
         ->add('description', TextareaType::class, array(
-            'attr' => array('class' => 'form-control')))
+            'attr' => array('class' => 'form-control'), 'label'=> 'Descripción'))
         ->add('save', SubmitType::class, array(
-            'label' => 'Create',
+            'label' => 'Crear',
             'attr' => array('class' => 'btn btn-primary mt-3')
         ))
         ->getForm();
@@ -80,13 +82,13 @@ class DepartmentsController extends AbstractController
 
         $form = $this->createFormBuilder($departments)
         ->add('name', TextType::class, array('required' => 'false',
-         'attr' =>array('class' => 'form-control')))
+         'attr' =>array('class' => 'form-control'), 'label' => 'Nombre'))
         ->add('slug', TextType::class, array('attr' =>
         array('class' => 'form-control')))
         ->add('description', TextareaType::class, array(
-            'attr' => array('class' => 'form-control')))
+            'attr' => array('class' => 'form-control'), 'label' => 'Descripción'))
         ->add('save', SubmitType::class, array(
-            'label' => 'Update',
+            'label' => 'Actualizar',
             'attr' => array('class' => 'btn btn-primary mt-3')
         ))
         ->getForm();
@@ -121,5 +123,51 @@ class DepartmentsController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('show_departments');
+    }
+
+    /**
+     * @Route("/departments/")
+     */
+    public function bestYear()
+    {
+        return $this->render('departments/bestYear.html.twig', array('departments' => $departments));
+    }
+
+    /**
+     * @Route("/departments/")
+     */
+    public function bestMonth()
+    {
+        return $this->render('departments/index.html.twig', array('departments' => $departments));
+    }
+
+    /**
+     * @Route("/departments/byDay")
+     */
+    public function byDay()
+    {
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByDay();
+        
+        return $this->render('departments/byDay.html.twig', array('query' => $query));
+    }
+
+    /**
+     * @Route("/departments/byMonth")
+     */
+    public function byMonth()
+    {
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByMonth();
+        
+        return $this->render('departments/byMonth.html.twig', array('query' => $query));
+    }
+
+    /**
+     * @Route("/departments/byYear")
+     */
+    public function byYear()
+    {
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByYear();
+        
+        return $this->render('departments/byYear.html.twig', array('query' => $query));
     }
 }

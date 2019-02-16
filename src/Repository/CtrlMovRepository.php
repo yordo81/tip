@@ -3,8 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\CtrlMov;
+use App\Entity\Departments;
+use App\Entity\Employees;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method CtrlMov|null find($id, $lockMode = null, $lockVersion = null)
@@ -51,9 +56,9 @@ class CtrlMovRepository extends ServiceEntityRepository
     public function getSumAmount($id): array
     {
 
-        $entityManager = $this->getEntityManager();
+        $em = $this->getEntityManager();
 
-        $query = $entityManager->createQuery(
+        $query = $em->createQuery(
                 'SELECT SUM(p.amount) as total
                 FROM App\Entity\CtrlMov p
                 WHERE p.employee = :id'
@@ -62,4 +67,91 @@ class CtrlMovRepository extends ServiceEntityRepository
     // returns an array of Product objects
     return $query->execute();
     }
+    
+    /*
+    * Realiza una suma por departamento, lo ordena de mayor a menor
+    * en el lapso de tiempo establecido entre inicio y final
+    */ 
+    public function getSumByYear()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, d.name
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             JOIN e.department d
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY d.id
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('First Day of January'),
+            'endDate' => new \DateTime('Today')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByMonth()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, d.name
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             JOIN e.department d
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY d.id
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('First Day of this Month'),
+            'endDate' => new \DateTime('Last Day of this Month')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByDay()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, d.name
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             JOIN e.department d
+             WHERE c.date = :endDate 
+             GROUP BY d.id
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'endDate' => new \DateTime('Today')
+        ));
+        return $query->execute();
+    }
+
+
+//Aqui Poner la paginacion
+    public function paginate($dql, $page = 1, $limit = 3)
+{
+    $paginator = new Paginator($dql);
+
+    $paginator->getQuery()
+        ->setFirstResult($limit * ($page - 1)) // Offset
+        ->setMaxResults($limit); // Limit
+
+    return $paginator;
+}
+
+public function getAllPers($currentPage = 1, $limit = 3)
+{
+    // Create our query
+    $query = $this->createQueryBuilder('p')
+        ->getQuery();
+
+
+    $paginator = $this->paginate($query, $currentPage, $limit);
+
+    return array('paginator' => $paginator, 'query' => $query);
+}
+
+    
 }

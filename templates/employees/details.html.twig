@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Control Sistem{% endblock %}
+{% block title %}Control de la propina{% endblock %}
 
 {% block body %}
-<h2>Employee</h2>
+<h2>Trabajador</h2>
 <h4>{{employees.name ~" "~ employees.lasname}}:
 {% for querys in query %}
 {{ querys.total|number_format(2,'.',',') }}
@@ -13,16 +13,16 @@
 <table id="employees" class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Amount</th>
-      <th scope="col">Date</th>
-      <th scope="col">Description</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Descripción</th>
     </tr>
   </thead>
   <tbody>
     {% for ctrlmov in ctrlmovs %}
     <tr>
      <td>{{ctrlmov.amount|number_format(2,'.',',')}}</td>
-     <td>{{ctrlmov.date|date('m-d-y h:i')}}</td>
+     <td>{{ctrlmov.date|date('d-m-y')}}</td>
      <td>{{ctrlmov.description}}</td>
     </tr>
     {% endfor %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Sistem{% endblock %}
+
+{% block body %}
+{% for jsonContents in jsonContent %}
+{{ jsonContents }}
+{% endfor %}
+
+{% endblock %}

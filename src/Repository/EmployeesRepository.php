@@ -47,4 +47,57 @@ class EmployeesRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getSumByDay()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date = :endDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'endDate' => new \DateTime('Today')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByMonth()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('First Day of this Month'),
+            'endDate' => new \DateTime('Last Day of this Month')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByYear()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('First Day of January'),
+            'endDate' => new \DateTime('Today')
+        ));
+        return $query->execute();
+    }
 }

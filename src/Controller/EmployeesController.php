@@ -141,7 +141,7 @@ class EmployeesController extends AbstractController
 	public function details($id)
 	{
 		$crtlmovs = $this->getDoctrine()->getRepository
-        (CtrlMov::class)->findByEmployee($id);
+        (CtrlMov::class)->findBy(array('employee' => $id), array('date' => 'DESC'));
         $employees = $this->getDoctrine()->getRepository
         (Employees::class)->find($id);
 

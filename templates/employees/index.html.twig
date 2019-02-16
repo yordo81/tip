@@ -1,29 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Control Sistem{% endblock %}
+{% block title %}Control de propina{% endblock %}
 
 {% block body %}
-<h2>Employees</h2><a href="/employees/new" type="button" class="btn btn-outline-success">Add employee</a>
+<h2>Trabajadores</h2><a href="/employees/new" type="button" class="btn btn-outline-success">Agregar trabajador</a>
 <br>
 <table id="employees" class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Department</th>
-      <th scope="col">Actions</th>
+      <th scope="col">Nombre y Apellidos</th>
+      
+      <th scope="col">Departamento</th>
+      <th scope="col">Acciones</th>
     </tr>
   </thead>
   <tbody>
     {% for employee in employees %}
     <tr>
-     <td><a href="/employees/details/{{employee.id}}">{{employee.name}}</a></td>
-     <td>{{employee.lasname}}</td>
+     <td><a href="/employees/details/{{employee.id}}">{{employee.name}} {{ employee.lasname}}</a></td>
      <td>{{employee.department}}</td>
 	  <td>
-     <a href="/employees/details/{{employee.id}}" type="button" class="btn btn-outline-success">Amounts</a>
-     <a href="/employees/edit/{{employee.id}}" type="button" class="btn btn-outline-success">Edit</a>
-     <a href="/employees/delete/{{employee.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Delete</a>
+     <a href="/employees/details/{{employee.id}}" type="button" class="btn btn-outline-success">Propina</a>
+     <a href="/employees/edit/{{employee.id}}" type="button" class="btn btn-outline-success">Editar</a>
+     <a href="/employees/delete/{{employee.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Eliminar</a>
     <td>
     </tr>
     {% endfor %}

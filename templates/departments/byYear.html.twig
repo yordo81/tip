@@ -3,7 +3,8 @@
 {% block title %}Control de propina{% endblock %}
 
 {% block body %}
-<h2>Departamento</h2>
+
+<h2>Acumulado Anual</h2>
 <a href="/departments/new" type="button" class="btn btn-outline-success">Agregar departamento</a>
 <a href="/departments/byDay" type="button" class="btn btn-outline-info">Acumulado Diario</a>
 <a href="/departments/byMonth" type="button" class="btn btn-outline-primary">Acumulado Mensual</a>
@@ -11,21 +12,15 @@
 <table id="departments" class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Nombre</th>
-      <th scope="col">Slug</th>
-      <th scope="col">Descripción</th>
-      <th scope="col">Acciones</th>
+      <th scope="col">Departamento</th>
+      <th scope="col">Propina</th>
     </tr>
   </thead>
   <tbody>
-    {% for department in departments %}
+    {% for querys in query %}
     <tr>
-     <td>{{department.name}}</td>
-     <td>{{department.slug}}</td>
-     <td>{{department.description}}</td>
-     <td><a href="/departments/edit/{{department.id}}" type="button" class="btn btn-outline-success">Editar</a>
-     <a href="/departments/delete/{{department.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="{{department.id}}">Eliminar</a></td>
-     <td>
+     <td>{{querys.name}}</td>
+     <td>{{ querys.suma|number_format(2,'.',',') }}</td>
     </tr>
     {% endfor %}
   </tbody>

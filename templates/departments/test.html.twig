@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test{% endblock %}
+
+{% block body %}
+
+<br>
+{% for querys in query %}
+Total: {{ querys.suma|number_format(2,'.',',') }}
+<br>
+Departamento: {{ querys.name }}
+{% endfor %}
+
+{% endblock %}

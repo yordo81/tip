@@ -1,31 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Control Sistem{% endblock %}
+{% block title %}Control de propina{% endblock %}
 
 {% block body %}
-<h2>Amounts</h2><a href="/ctrlmov/new" type="button" class="btn btn-outline-success">Add Amount</a>
+<h2>Propina</h2><a href="/ctrlmov/new" type="button" class="btn btn-outline-success">Agregar propina</a>
 <br>
 <table id="ctrlmov" class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Amount</th>
-      <th scope="col">Description</th>
-      <th scope="col">Employee</th>
-      <th scope="col">Date</th>
-      <th scope="col">Actions</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Trabajador</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Acciones</th>
     </tr>
   </thead>
   <tbody>
     {% for ctrlmov in ctrlmovs %}
     <tr>
-     <td>{{ctrlmov.amount|number_format(2,'.',',')}}</td>
+     <td>{{ctrlmov.amount|number_format(2,',','.')}}</td>
      <td>{{ctrlmov.description}}</td>
      <td>{{ctrlmov.employee}}</td>
-     <td>{{ctrlmov.date|date('m-d-y h:i')}}</td>
-	 <td><a href="/ctrlmov/details/{{ctrlmov.id}} type="button" class="btn btn-outline-success">Details</a>
-     <a href="/ctrlmov/edit/{{ctrlmov.id}}" type="button" class="btn btn-outline-success">Edit</a>
-     <a href="/ctrlmov/delete/{{ctrlmov.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Delete</a>
-     <td>
+     <td>{{ctrlmov.date|date('d-m-y')}}</td>
+	  <td><a href="/ctrlmov/details/{{ctrlmov.id}}" type="button" class="btn btn-outline-success">Detalles</a>
+     <a href="/ctrlmov/edit/{{ctrlmov.id}}" type="button" class="btn btn-outline-success">Editar</a>
+     <a href="/ctrlmov/delete/{{ctrlmov.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Eliminar</a>
+    <td>
     </tr>
     {% endfor %}
   </tbody>

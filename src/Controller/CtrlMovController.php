@@ -16,14 +16,22 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CtrlMovController extends AbstractController
 {
     /**
      * @Route("/ctrlmov/", name="show_ctrl_mov")
      */
-    public function index()
+    public function index($currentPage = 1)
     {
         $crtlmovs = $this->getDoctrine()->getRepository
         (CtrlMov::class)->findAll();
@@ -42,19 +50,17 @@ class CtrlMovController extends AbstractController
         
         $formBuilder = $this->createFormBuilder($ctrlmovs)
         ->add('amount', MoneyType::class, array(
-        'currency' => 'false',
-		'required' => 'false',
-         'attr' =>array('class' => 'form-control')))
-         ->add('description', TextAreaType::class, array('attr' =>
-         array('class' => 'form-control'),
-         'label' => 'Description'))
+        'scale' => 2,
+		'required' => 'true',
+         'attr' =>array('class' => 'form-control'), 'label' => 'Propina'))
+         ->add('description', TextAreaType::class, 
+         array('attr' =>
+         array('class' => 'form-control'), 'label' => 'Descripción'))
         ->add('employee', EntityType::class, array(
             'class' => Employees::class,
-            'attr' => array(
-                'class' => 'form-control'
-            )))
+            'attr' => array('class' => 'form-control'), 'label' => 'Empleado'))
         ->add('save', SubmitType::class, array(
-           'label' => 'Create',
+           'label' => 'Crear',
            'attr' => array('class' => 'btn btn-primary mt-3')));
         $ctrlmovs->setDate(new \DateTime);
         $form = $formBuilder->getForm();
@@ -89,18 +95,18 @@ class CtrlMovController extends AbstractController
         (CtrlMov::class)->find($id);
         
         $formBuilder = $this->createFormBuilder($ctrlmovs)
-        ->add('amount', TextType::class, array('required' => 'false',
-         'attr' =>array('class' => 'form-control')))
-         ->add('description', TextAreaType::class, array('attr' =>
+        ->add('amount', MoneyType::class, array(
+            'scale' => 2,
+            'required' => 'true',
+            'attr' =>array('class' => 'form-control'), 'label' => 'Propina'))
+        ->add('description', TextAreaType::class, array('attr' =>
          array('class' => 'form-control'),
-         'label' => 'Description'))
+         'label' => 'Descripción'))
         ->add('employee', EntityType::class, array(
             'class' => Employees::class,
-            'attr' => array(
-                'class' => 'form-control'
-            )))
+            'attr' => array('class' => 'form-control'), 'label' => 'Trabajador'))
         ->add('save', SubmitType::class, array(
-           'label' => 'Update',
+           'label' => 'Actualizar',
            'attr' => array('class' => 'btn btn-primary mt-3')));
         $ctrlmovs->setDate(new \DateTime);
         $form = $formBuilder->getForm();
@@ -148,5 +154,23 @@ class CtrlMovController extends AbstractController
  
         return $this->render('/ctrlmov/details.html.twig', array
         ('ctrlmovs' => $crtlmovs));
-	}
+    }
+
+    /**
+	*@Route("/ctrlmov/chart/")
+	*
+	*/
+    
+    public function getJson()
+    {
+        $ctrlmovs = $this->getDoctrine()
+        ->getRepository('App\Entity\CtrlMov')
+        ->createQueryBuilder('c')
+        ->getQuery()
+        ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+
+        return new JsonResponse($ctrlmovs);
+        //return $this->render('/ctrlmov/chart.html.twig', array('jsonContent' => $jsonContent));
+
+    }
 }
