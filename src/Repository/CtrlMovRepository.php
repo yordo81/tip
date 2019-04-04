@@ -59,12 +59,16 @@ class CtrlMovRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
 
         $query = $em->createQuery(
-                'SELECT SUM(p.amount) as total
-                FROM App\Entity\CtrlMov p
-                WHERE p.employee = :id'
-                )->setParameter('id', $id);
-
-    // returns an array of Product objects
+                'SELECT SUM(c.amount) as total
+                FROM App\Entity\CtrlMov c
+                WHERE c.employee = :id
+                AND c.date BETWEEN :startDate AND :endDate'
+                );
+        $query->setParameters(array(
+                    'id' => $id,
+                    'startDate' => new \DateTime('First Day of January'),
+                    'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
+                ));
     return $query->execute();
     }
     
@@ -86,7 +90,7 @@ class CtrlMovRepository extends ServiceEntityRepository
             ');
         $query->setParameters(array(
             'startDate' => new \DateTime('First Day of January'),
-            'endDate' => new \DateTime('Today')
+            'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
         ));
         return $query->execute();
     }
@@ -118,12 +122,13 @@ class CtrlMovRepository extends ServiceEntityRepository
              FROM App\Entity\CtrlMov c
              JOIN c.employee e
              JOIN e.department d
-             WHERE c.date = :endDate 
+             WHERE c.date BETWEEN :startDate AND :endDate 
              GROUP BY d.id
              ORDER BY suma DESC
             ');
         $query->setParameters(array(
-            'endDate' => new \DateTime('Today')
+            'startDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00")),
+            'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
         ));
         return $query->execute();
     }

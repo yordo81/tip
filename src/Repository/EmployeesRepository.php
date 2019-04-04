@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Employees;
+use App\Entity\CtrlMov;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -55,12 +56,13 @@ class EmployeesRepository extends ServiceEntityRepository
             'SELECT SUM(c.amount) AS suma, e.name, e.lasname
              FROM App\Entity\CtrlMov c
              JOIN c.employee e
-             WHERE c.date = :endDate 
+             WHERE c.date BETWEEN :startDate AND :endDate 
              GROUP BY c.employee
              ORDER BY suma DESC
             ');
         $query->setParameters(array(
-            'endDate' => new \DateTime('Today')
+            'startDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00")),
+            'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
         ));
         return $query->execute();
     }
@@ -96,7 +98,81 @@ class EmployeesRepository extends ServiceEntityRepository
             ');
         $query->setParameters(array(
             'startDate' => new \DateTime('First Day of January'),
-            'endDate' => new \DateTime('Today')
+            'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
+        ));
+        return $query->execute();
+    }
+
+    /**
+     * Estadisticas e Historico por trabajador
+     */
+    public function getSumByLastWeek()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('last week monday'),
+            'endDate' => new \DateTime('last week sunday')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByLastMonth()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('first day of last month'),
+            'endDate' => new \DateTime('last day of last month')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByLastYear()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('first day of January last year'),
+            'endDate' => new \DateTime('last day of December last year')
+        ));
+        return $query->execute();
+    }
+
+    public function getSumByLastDay()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.date = :startDate 
+             GROUP BY c.employee
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('yesterday')
         ));
         return $query->execute();
     }

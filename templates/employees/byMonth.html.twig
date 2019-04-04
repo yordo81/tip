@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control de propina{% endblock %}
+
+{% block body %}
+<h2>Mejores propineros del mes</h2>
+<a href="/employees/new" type="button" class="btn btn-outline-success">Agregar trabajador</a>
+<a href="/employees/byDay" type="button" class="btn btn-outline-info">Acumulado Diario</a>
+<a href="/employees/byMonth" type="button" class="btn btn-outline-primary">Acumulado Mensual</a>
+<a href="/employees/byYear" type="button" class="btn btn-outline-danger">Acumulado Anual</a>
+<br>
+<table id="employees" class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Nombre y Apellidos</th>
+      <th scope="col">Propina</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for querys in query %}
+    <tr>
+     <td>{{querys.name}} {{ querys.lasname}}</td>
+     <td>{{querys.suma}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}

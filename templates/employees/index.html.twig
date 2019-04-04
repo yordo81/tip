@@ -3,7 +3,11 @@
 {% block title %}Control de propina{% endblock %}
 
 {% block body %}
-<h2>Trabajadores</h2><a href="/employees/new" type="button" class="btn btn-outline-success">Agregar trabajador</a>
+<h2>Trabajadores</h2>
+<a href="/employees/new" type="button" class="btn btn-outline-success">Agregar trabajador</a>
+<a href="/employees/byDay" type="button" class="btn btn-outline-info">Acumulado Diario</a>
+<a href="/employees/byMonth" type="button" class="btn btn-outline-primary">Acumulado Mensual</a>
+<a href="/employees/byYear" type="button" class="btn btn-outline-danger">Acumulado Anual</a>
 <br>
 <table id="employees" class="table">
   <thead class="thead-light">

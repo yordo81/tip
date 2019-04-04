@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control de propina{% endblock %}
+
+{% block body %}
+<h2>Historico Semana Anterior</h2>
+<a href="/stat/byLastDay" type="button" class="btn btn-outline-info">Día Anterior</a>
+<a href="/stat" type="button" class="btn btn-outline-info">Semana Anterior</a>
+<a href="/stat/byLastMonth" type="button" class="btn btn-outline-primary">Mes Anterior</a>
+<a href="/stat/byLastYear" type="button" class="btn btn-outline-danger">Año Anterior</a>
+<table id="departments" class="table">
+<thead class="thead-light">
+    <tr>
+      <th scope="col">Nombre y Apellidos</th>
+      <th scope="col">Propina</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for querys in query %}
+    <tr>
+     <td>{{querys.name}} {{ querys.lasname}}</td>
+     <td>{{querys.suma}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+{% endblock %}

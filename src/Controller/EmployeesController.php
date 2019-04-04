@@ -150,6 +150,36 @@ class EmployeesController extends AbstractController
         
         return $this->render('/employees/details.html.twig', 
         array('ctrlmovs' => $crtlmovs, 'employees' => $employees, 'query' => $query));
-	}
+    }
+    
+    /**
+     * @Route("/employees/byDay")
+     */
+    public function byDay()
+    {
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByDay();
+        
+        return $this->render('/employees/byDay.html.twig', array('query' => $query));
+    }
+
+     /**
+     * @Route("/employees/byMonth")
+     */
+    public function byMonth()
+    {
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByMonth();
+        
+        return $this->render('/employees/byMonth.html.twig', array('query' => $query));
+    }
+
+     /**
+     * @Route("/employees/byYear")
+     */
+    public function byYear()
+    {
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByYear();
+        
+        return $this->render('/employees/byYear.html.twig', array('query' => $query));
+    }
 
 }
