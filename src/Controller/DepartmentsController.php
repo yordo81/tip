@@ -152,6 +152,16 @@ class DepartmentsController extends AbstractController
     }
 
     /**
+     * @Route("/departments/byWeek")
+     */
+    public function byWeek()
+    {
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByWeek();
+        
+        return $this->render('departments/byWeek.html.twig', array('query' => $query));
+    }
+
+    /**
      * @Route("/departments/byMonth")
      */
     public function byMonth()

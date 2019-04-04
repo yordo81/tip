@@ -113,6 +113,25 @@ class CtrlMovRepository extends ServiceEntityRepository
         ));
         return $query->execute();
     }
+    //Esta funcion calcula la propina de la semana actual
+    public function getSumByWeek()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, d.name
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             JOIN e.department d
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY d.id
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => new \DateTime('First Day of this Week'),
+            'endDate' => new \DateTime('Last Day of this Week')
+        ));
+        return $query->execute();
+    }
 
     public function getSumByDay()
     {
