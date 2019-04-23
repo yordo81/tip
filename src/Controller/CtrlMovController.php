@@ -59,10 +59,17 @@ class CtrlMovController extends AbstractController
         ->add('employee', EntityType::class, array(
             'class' => Employees::class,
             'attr' => array('class' => 'form-control'), 'label' => 'Empleado'))
+        ->add('date', DateTimeType::Class, array(
+            'attr' => array('class' => 'form-control input-group date'),
+            'date_widget' => 'single_text',
+            "format" => 'yyyy-MM-dd',
+            "data" => new \DateTime(),
+            'required' => 'true',
+            'label' => 'Fecha'))
         ->add('save', SubmitType::class, array(
            'label' => 'Crear',
            'attr' => array('class' => 'btn btn-primary mt-3')));
-        $ctrlmovs->setDate(new \DateTime);
+        //$ctrlmovs->setDate(new \DateTime);
         $form = $formBuilder->getForm();
 
         $form->handleRequest($request);
