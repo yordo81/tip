@@ -76,7 +76,7 @@ class CtrlMovRepository extends ServiceEntityRepository
     * Realiza una suma por departamento, lo ordena de mayor a menor
     * en el lapso de tiempo establecido entre inicio y final
     */ 
-    public function getSumByYear()
+    public function getSum($startDate, $endDate)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
@@ -89,65 +89,23 @@ class CtrlMovRepository extends ServiceEntityRepository
              ORDER BY suma DESC
             ');
         $query->setParameters(array(
-            'startDate' => new \DateTime('First Day of January'),
-            'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
+            'startDate' => $startDate,
+            'endDate' => $endDate
         ));
         return $query->execute();
     }
 
-    public function getSumByMonth()
+    public function getTotal($startDate, $endDate)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
-            'SELECT SUM(c.amount) AS suma, d.name
+            'SELECT SUM(c.amount) AS suma
              FROM App\Entity\CtrlMov c
-             JOIN c.employee e
-             JOIN e.department d
              WHERE c.date BETWEEN :startDate AND :endDate 
-             GROUP BY d.id
-             ORDER BY suma DESC
             ');
         $query->setParameters(array(
-            'startDate' => new \DateTime('First Day of this Month'),
-            'endDate' => new \DateTime('Last Day of this Month')
-        ));
-        return $query->execute();
-    }
-    //Esta funcion calcula la propina de la semana actual
-    public function getSumByWeek()
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery(
-            'SELECT SUM(c.amount) AS suma, d.name
-             FROM App\Entity\CtrlMov c
-             JOIN c.employee e
-             JOIN e.department d
-             WHERE c.date BETWEEN :startDate AND :endDate 
-             GROUP BY d.id
-             ORDER BY suma DESC
-            ');
-        $query->setParameters(array(
-            'startDate' => new \DateTime('First Day of this Week'),
-            'endDate' => new \DateTime('Last Day of this Week')
-        ));
-        return $query->execute();
-    }
-
-    public function getSumByDay()
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery(
-            'SELECT SUM(c.amount) AS suma, d.name
-             FROM App\Entity\CtrlMov c
-             JOIN c.employee e
-             JOIN e.department d
-             WHERE c.date BETWEEN :startDate AND :endDate 
-             GROUP BY d.id
-             ORDER BY suma DESC
-            ');
-        $query->setParameters(array(
-            'startDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00")),
-            'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
+            'startDate' => $startDate,
+            'endDate' => $endDate
         ));
         return $query->execute();
     }

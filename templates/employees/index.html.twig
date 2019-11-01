@@ -4,11 +4,17 @@
 
 {% block body %}
 <h2>Trabajadores</h2>
-<a href="/employees/new" type="button" class="btn btn-outline-success">Agregar trabajador</a>
-<a href="/employees/byDay" type="button" class="btn btn-outline-info">Acumulado Diario</a>
-<a href="/employees/byMonth" type="button" class="btn btn-outline-primary">Acumulado Mensual</a>
-<a href="/employees/byYear" type="button" class="btn btn-outline-danger">Acumulado Anual</a>
-<br>
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Opciones
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a href="/employees/new" class="dropdown-item">Agregar trabajador</a>
+    <a href="/employees/byDay" class="dropdown-item">Acumulado Diario</a>
+    <a href="/employees/byMonth" class="dropdown-item">Acumulado Mensual</a>
+    <a href="/employees/byYear" class="dropdown-item">Acumulado Anual</a>
+  </div>
+</div>
 <table id="employees" class="table">
   <thead class="thead-light">
     <tr>
@@ -36,4 +42,7 @@
 {% endblock %}
 {% block javascripts %}
  <script src="/js/main.js"></script>
+ <script src="/js/jquery-3.3.1.slim.min.js"></script>
+ <script src="/js/popper.min.js"></script>
+ <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
 {% endblock %}

@@ -142,13 +142,16 @@ class DepartmentsController extends AbstractController
     }
 
     /**
-     * @Route("/departments/byDay")
+     * @Route("/departments/byDay") 
      */
     public function byDay()
     {
-        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByDay();
-        
-        return $this->render('departments/byDay.html.twig', array('query' => $query));
+        $startDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00"));
+        $endDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"));
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSum($startDate, $endDate);
+        $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
+       
+        return $this->render('departments/byDay.html.twig', array('query' => $query, 'data' => $data));
     }
 
     /**
@@ -156,9 +159,12 @@ class DepartmentsController extends AbstractController
      */
     public function byWeek()
     {
-        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByWeek();
+        $startDate = new \DateTime('monday this week');
+        $endDate = new \DateTime('sunday this Week');
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSum($startDate, $endDate);
+        $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
         
-        return $this->render('departments/byWeek.html.twig', array('query' => $query));
+        return $this->render('departments/byWeek.html.twig', array('query' => $query, 'data' => $data));
     }
 
     /**
@@ -166,9 +172,12 @@ class DepartmentsController extends AbstractController
      */
     public function byMonth()
     {
-        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByMonth();
-        
-        return $this->render('departments/byMonth.html.twig', array('query' => $query));
+        $startDate = new \DateTime('First Day of this Month');
+        $endDate = new \DateTime('Last Day of this Month');
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSum($startDate, $endDate);
+        $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
+
+        return $this->render('departments/byMonth.html.twig', array('query' => $query, 'data' => $data));
     }
 
     /**
@@ -176,8 +185,11 @@ class DepartmentsController extends AbstractController
      */
     public function byYear()
     {
-        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumByYear();
+        $startDate = new \DateTime('First Day of January');
+        $endDate = new \DateTime('Last Day of December');
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSum($startDate, $endDate);
+        $data = $this->getDoctrine()->getRepository(CtrlMov::class)->getTotal($startDate, $endDate);
         
-        return $this->render('departments/byYear.html.twig', array('query' => $query));
+        return $this->render('departments/byYear.html.twig', array('query' => $query, 'data' => $data));
     }
 }

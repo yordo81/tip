@@ -6,7 +6,7 @@ use App\Entity\Departments;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
+/** 
  * @method Departments|null find($id, $lockMode = null, $lockVersion = null)
  * @method Departments|null findOneBy(array $criteria, array $orderBy = null)
  * @method Departments[]    findAll()

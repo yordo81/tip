@@ -157,7 +157,9 @@ class EmployeesController extends AbstractController
      */
     public function byDay()
     {
-        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByDay();
+        $startDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00"));
+        $endDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"));
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         
         return $this->render('/employees/byDay.html.twig', array('query' => $query));
     }
@@ -167,9 +169,27 @@ class EmployeesController extends AbstractController
      */
     public function byMonth()
     {
-        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByMonth();
+        $startDate = new \DateTime('First Day of this Month');
+        $endDate = new \DateTime('Last Day of this Month');
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
+        $departments = $this->getDoctrine()->getRepository(Departments::class)->findAll();
+        //var_dump($query);
+        return $this->render('/employees/byMonth.html.twig', array('query' => $query, 'department' => $departments));
+    }
+
+    /**
+    * @Route("/employees/byMonthByDep/{id}")
+    */
+    public function byMonthByDep($id)
+    {
+
+        $startDate = new \DateTime('First Day of this Month');
+        $endDate = new \DateTime('Last Day of this Month');
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByDep($id, $startDate, $endDate);
+        $departments = $this->getDoctrine()->getRepository(Departments::class)->findAll();
         
-        return $this->render('/employees/byMonth.html.twig', array('query' => $query));
+
+        return $this->render('/employees/byMonth.html.twig', array('query' => $query, 'department' => $departments));
     }
 
      /**
@@ -177,7 +197,9 @@ class EmployeesController extends AbstractController
      */
     public function byYear()
     {
-        $query = $this->getDoctrine()->getRepository(Employees::class)->getSumByYear();
+        $startDate = new \DateTime('First Day of January');
+        $endDate = new \DateTime('Last Day of December');
+        $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         
         return $this->render('/employees/byYear.html.twig', array('query' => $query));
     }
