@@ -13,7 +13,7 @@
   </div>
 </div>
 <!-- table id="ctrlmov" class="table"-->
-<table id="desc-data-table-lg" class="table table-striped table-bordered table-hover">
+<table id="desc-data-table-lg" class="table table-striped table-bordered table-hover mydatatable">
   <thead class="thead-light">
     <tr>
       <th scope="col">Cantidad</th>
@@ -41,9 +41,7 @@
 
 {% endblock %}
 {% block javascripts %}
- <script src="/js/main.js"></script>
- <script src="/js/jquery-3.3.1.slim.min.js"></script>
- <script src="/js/popper.min.js"></script>
- <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+<script>
+  $(mydatatable).DataTable();
+</script>
 {% endblock %}
-
