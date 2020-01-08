@@ -33,8 +33,12 @@ class CtrlMovController extends AbstractController
      */
     public function index($currentPage = 1)
     {
+        $startDate = new \DateTime('first day of this month midnight');
+        $endDate = new \DateTime('last day of this month');
+        //$crtlmovs = $this->getDoctrine()->getRepository
+        //(CtrlMov::class)->findAll();
         $crtlmovs = $this->getDoctrine()->getRepository
-        (CtrlMov::class)->findAll();
+        (CtrlMov::class)->getIndexMonth($startDate, $endDate);
  
         return $this->render('/ctrlmov/index.html.twig', array
         ('ctrlmovs' => $crtlmovs));
@@ -164,20 +168,31 @@ class CtrlMovController extends AbstractController
     }
 
     /**
-	*@Route("/ctrlmov/chart/")
+	*@Route("/ctrlmov/data")
 	*
 	*/
     
     public function getJson()
     {
-        $ctrlmovs = $this->getDoctrine()
-        ->getRepository('App\Entity\CtrlMov')
-        ->createQueryBuilder('c')
-        ->getQuery()
-        ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        $startDate = new \DateTime('First Day of January');
+        $endDate = new \DateTime('Last Day of December');
+        $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSum($startDate, $endDate);
+        $data = $this->getDoctrine()->getRepository(CtrlMov::class)->getTotal($startDate, $endDate);
+        
+        $response = new Response();
+        
+        $response->headers->set('Content-Type', 'application/json');
 
-        return new JsonResponse($ctrlmovs);
-        //return $this->render('/ctrlmov/chart.html.twig', array('jsonContent' => $jsonContent));
+        return $response->setContent(json_encode($query));
 
+    }
+
+    /**
+     * @Route("ctrlmov/chart")
+     * 
+     */
+    public function getChartView()
+    {
+        return $this->render('/ctrlmov/chart.html.twig');
     }
 }

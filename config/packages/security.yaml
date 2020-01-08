@@ -4,6 +4,7 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
+        ROLE_COMER:       ROLE_COMERCIAL
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -43,4 +44,5 @@ security:
         - { path: ^/departments/, role: ROLE_USER }
         - { path: ^/employees/, role: ROLE_USER }
         - { path: ^/ctrlmovs/, role: ROLE_USER }
+        - { path: ^/almuerzos/, role: ROLE_USER }
         - { path: ^/, role: ROLE_USER }

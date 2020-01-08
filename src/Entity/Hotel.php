@@ -37,4 +37,8 @@ class Hotel
 
         return $this;
     }
+
+     public function __toString(){
+        return $this->hotelName;
+    }
 }

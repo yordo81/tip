@@ -16,6 +16,8 @@
 
          <!-- Custom styles for this template -->
         <link href="/css/dashboard.css" rel="stylesheet">
+        <!-- DataTables -->
+        <link href="/css/dataTables.bootstrap.css">
         {% endblock %}
     </head>
     <body>
@@ -52,6 +54,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="/almuerzo/">
+                  <span data-feather="stat"></span>
+                  <i class="fas fa-calendar"></i> Almuerzos
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="/stat/">
                   <span data-feather="stat"></span>
                   <i class="fas fa-clock"></i> Historico
@@ -67,7 +75,6 @@
             </ul>
           </div>
         </nav>
-
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="container-fluid">
 
@@ -81,10 +88,7 @@
         
         
         {% block javascripts %}
-        <script src="/js/main.js"></script>
-        <script src="/js/jquery-3.3.1.slim.min.js"></script>
-        <script src="/js/popper.min.js"></script>
-        <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+        
         {% endblock %}
     </body>
 </html>

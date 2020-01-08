@@ -53,6 +53,22 @@ class CtrlMovRepository extends ServiceEntityRepository
     }
     */
 
+    public function getIndexMonth($startDate, $endDate)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+                'SELECT c
+                FROM App\Entity\CtrlMov c
+                WHERE c.date BETWEEN :startDate AND :endDate'
+                );
+        $query->setParameters(array(
+                    'startDate' => $startDate,
+                    'endDate' => $endDate
+                ));
+    return $query->execute();
+    }
+
     public function getSumAmount($id): array
     {
 
@@ -109,31 +125,4 @@ class CtrlMovRepository extends ServiceEntityRepository
         ));
         return $query->execute();
     }
-
-
-//Aqui Poner la paginacion
-    public function paginate($dql, $page = 1, $limit = 3)
-{
-    $paginator = new Paginator($dql);
-
-    $paginator->getQuery()
-        ->setFirstResult($limit * ($page - 1)) // Offset
-        ->setMaxResults($limit); // Limit
-
-    return $paginator;
-}
-
-public function getAllPers($currentPage = 1, $limit = 3)
-{
-    // Create our query
-    $query = $this->createQueryBuilder('p')
-        ->getQuery();
-
-
-    $paginator = $this->paginate($query, $currentPage, $limit);
-
-    return array('paginator' => $paginator, 'query' => $query);
-}
-
-    
 }

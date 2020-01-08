@@ -3,14 +3,20 @@
 {% block title %}Control Sistem{% endblock %}
 
 {% block body %}
-{% for jsonContents in jsonContent %}
-{{ jsonContents }}
-{% endfor %}
-
+<style type="text/css">
+    #chart-container{
+        width: 640 px;
+        height: auto;
+    }
+</style>
+<div id="chart-container">
+    <canvas id="mycanvas"></canvas>
+</div>
 {% endblock %}
+
 {% block javascripts %}
  <script src="/js/main.js"></script>
- <script src="/js/jquery-3.3.1.slim.min.js"></script>
- <script src="/js/popper.min.js"></script>
- <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+ <script src="/js/jquery-3.4.1.min.js"></script>
+ <script src="/js/chart/Chart.js"></script>
+ <script src="/js/app-chart.js"></script>
 {% endblock %}

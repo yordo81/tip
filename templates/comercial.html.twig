@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{% block title %}Control de Almuerzos!{% endblock %}</title>
+        {% block stylesheets %}
+
+        <!-- Bootstrap 4.1.3 -->
+        <link rel="stylesheet" href="/bootstrap-4.1.3/css/bootstrap.min.css">
+        
+        <!-- Font awesome 5.3.1 -->
+        <link rel="stylesheet" href="/fontawesome/css/all.css">
+
+         <!-- Custom styles for this template -->
+        <link href="/css/dashboard.css" rel="stylesheet">
+        <!-- DataTables -->
+        <link href="/css/dataTables.bootstrap.css">
+        {% endblock %}
+    </head>
+    <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Control de Almuerzos</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="/logout">
+            <i class="fas fa-sign-out-alt"></i> Salir</a>
+        </li>
+      </ul>
+    </nav>
+        <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="/almuerzo/">
+                  <span data-feather="stat"></span>
+                  <i class="fas fa-calendar"></i> Almuerzos
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/profile/">
+                  <span data-feather="profile"></span>
+                  <i class="fas fa-users"></i>  Perfil 
+                </a>
+                
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="container-fluid">
+
+           <!-- Content here -->
+            {% block body %}{% endblock %}
+
+          </div>
+        </main>
+      </div>
+    </div>
+        
+        
+        {% block javascripts %}
+        
+        {% endblock %}
+    </body>
+</html>

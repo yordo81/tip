@@ -22,6 +22,7 @@
       <th scope="col">Nombre</th>
       <th scope="col">Slug</th>
       <th scope="col">Descripción</th>
+      <th scope="col">Hotel</th>
       <th scope="col">Acciones</th>
     </tr>
   </thead>
@@ -31,6 +32,7 @@
      <td>{{department.name}}</td>
      <td>{{department.slug}}</td>
      <td>{{department.description}}</td>
+     <td>{{department.hotel}}</td>
      <td><a href="/departments/edit/{{department.id}}" type="button" class="btn btn-outline-success">Editar</a>
      <a href="/departments/delete/{{department.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="{{department.id}}">Eliminar</a></td>
      <td>

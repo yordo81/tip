@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Departments;
 use App\Entity\Employees;
 use App\Entity\CtrlMov;
+use App\Entity\Hotel;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class DepartmentsController extends AbstractController
 {
@@ -46,6 +48,8 @@ class DepartmentsController extends AbstractController
         array('class' => 'form-control')))
         ->add('description', TextareaType::class, array(
             'attr' => array('class' => 'form-control'), 'label'=> 'Descripción'))
+        ->add('Hotel', EntityType::class, array('class' => Hotel::class,
+            'attr' => array('class' => 'form-control'), 'label' => 'Hotel'))
         ->add('save', SubmitType::class, array(
             'label' => 'Crear',
             'attr' => array('class' => 'btn btn-primary mt-3')
@@ -87,6 +91,8 @@ class DepartmentsController extends AbstractController
         array('class' => 'form-control')))
         ->add('description', TextareaType::class, array(
             'attr' => array('class' => 'form-control'), 'label' => 'Descripción'))
+        ->add('Hotel', EntityType::class, array('class' => Hotel::class,
+            'attr' => array('class' => 'form-control'), 'label' => 'Hotel'))
         ->add('save', SubmitType::class, array(
             'label' => 'Actualizar',
             'attr' => array('class' => 'btn btn-primary mt-3')

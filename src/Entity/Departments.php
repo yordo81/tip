@@ -38,6 +38,12 @@ class Departments
      */
     private $departments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Hotel", inversedBy="hotel")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hotel;
+
     public function __construct()
     {
         $this->departments = new ArrayCollection();
@@ -111,6 +117,18 @@ class Departments
                 $department->setDepartment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHotel(): ?Hotel
+    {
+        return $this->hotel;
+    }
+
+    public function setHotel(Hotel $hotel): self
+    {
+        $this->hotel = $hotel;
 
         return $this;
     }

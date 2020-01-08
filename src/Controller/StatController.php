@@ -61,6 +61,7 @@ class StatController extends AbstractController
     public function byLastDay()
     {
         $startDate = new \DateTime('yesterday midnight');
+        var_dump($startDate);
         $endDate = new \DateTime('today midnight');
 
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
@@ -91,7 +92,7 @@ class StatController extends AbstractController
      */
     public function month()
     {
-        $startDate = new \DateTime('first day of this month');
+        $startDate = new \DateTime('first day of this month midnight');
         $endDate = new \DateTime('now');
         
         var_dump($startDate);

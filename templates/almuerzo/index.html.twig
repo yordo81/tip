@@ -1,0 +1,141 @@
+{% extends 'comercial.html.twig' %}
+
+{% block title %}Control de Almuerzos{% endblock %}
+
+{% block body %}
+<style type="text/css">
+  #mydatatable_filter { float: right; }
+</style>
+<h2>Almuerzos</h2>
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Opciones
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a href="/almuerzo/new" class="dropdown-item">Agregar almuerzo</a>
+  </div>
+</div>
+{% if (data) %}
+<!-- table id="ctrlmov" class="table"-->
+<table id="mydatatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+  <thead class="thead-light">
+    <tr>
+      <th style="display: none"></th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Cantidad de pax</th>
+      <th scope="col">Hotel</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data %}
+    <tr>
+     <td style="display: none">{{row.id}}</td>
+     <td>{{row.descripcion}}</td>
+     <td>{{row.pax}}</td>
+     <td>{{row.hotel}}</td>
+     <td>{{row.date|date('d-m-y')}}</td>
+	  <td>
+     <a href="/almuerzo/edit/{{row.id}}" type="button" class="btn btn-outline-success">Editar</a>
+     <a href="/almuerzo/delete/{{row.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Eliminar</a>
+    </td>
+    </tr>
+    {% endfor %}
+    <tfoot>
+      <tr>
+      <th style="display: none"></th>
+      <th></th>
+      <th>Total:</th>
+      </tr>
+    </tfoot>
+  </tbody>
+</table>
+{% else %}
+<div class="alert"><h3>No se ha introducido ningún dato aún</h3></div>
+{% endif %}
+{% endblock %}
+{% block javascripts %}
+<script src="/js/main.js"></script>
+        <script src="/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="/js/popper.min.js"></script>
+        <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+        <script src="/js/jquery.dataTables.min.js"></script>
+        <script src="/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  
+  /***Format number***/
+	var formatNummber = {
+		separador:",",
+		sepDecimal:".",
+		formatear:function(num){
+			num+="";
+			var splitStr = num.split(".");
+			var splitLeft = splitStr[0];
+			var splitRight = splitStr.length > 1 ? this.sepDecimal+splitStr[1]:"";
+			var regx = /(\d+)(\d{3})/;
+			while(regx.test(splitLeft)){
+				splitLeft = splitLeft.replace(regx,'$1'+this.separador+'$2');
+			}
+			return this.simbol + splitLeft + splitRight;
+		},
+		new:function(num,simbol){
+			this.simbol = simbol || "";
+			return this.formatear(num)
+		}
+	}
+
+  $('#mydatatable').DataTable(
+    {
+      "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 1 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 1, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 1 ).footer() ).html(
+                formatNummber.new(parseFloat(pageTotal).toFixed(2),"$") +'  ' +'('+ formatNummber.new(parseFloat(total).toFixed(2),"$") +' total)'
+            );
+        },
+        "responsive": true,
+        "pageLength": 30,
+        "order": [[0,'desc']],       
+        "language": {
+            "emptyTable": "No existen datos para mostrar",
+            "info": "Mostrando del _START_ al _END_ de _TOTAL_ filas",
+            "infoEmpty": "Mostrando del 0 al 0 de 0 filas",
+            "infoFiltered": "(filtrado de un total de _MAX_ filas)",
+            "search": "Buscar:",
+            "paginate": {
+                "previous": '<i class="fa fa-angle-left"></i>',
+                "next": '<i class="fa fa-angle-right"></i>'
+            }
+        },
+    }
+  );
+  })
+</script>
+{% endblock %}
