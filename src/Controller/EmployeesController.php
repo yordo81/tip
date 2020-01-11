@@ -169,8 +169,8 @@ class EmployeesController extends AbstractController
      */
     public function byMonth()
     {
-        $startDate = new \DateTime('First Day of this Month');
-        $endDate = new \DateTime('Last Day of this Month');
+        $startDate = new \DateTime('first day of this month midnight');
+        $endDate = new \DateTime('now');
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $departments = $this->getDoctrine()->getRepository(Departments::class)->findAll();
         //var_dump($query);
