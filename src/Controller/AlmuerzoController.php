@@ -154,4 +154,33 @@ class AlmuerzoController extends AbstractController
         return $this->redirectToRoute('show_almuerzo');
     }
 
+    /**
+	*@Route("/almuerzo/data")
+	*
+	*/
+    public function getJson()
+    {
+        $startDate = new \DateTime('First Day of January');
+        $endDate = new \DateTime('Last Day of December');
+        $query = $this->getDoctrine()->getRepository(Almuerzos::class)->getSum($startDate, $endDate);
+        
+        $response = new Response();
+        
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response->setContent(json_encode($query));
+
+    }
+
+    /**
+     * @Route("almuerzo/chart")
+     * 
+     */
+    public function getChartView()
+    {
+        return $this->render('/almuerzo/chart.html.twig');
+    }
+
+    
+
 }

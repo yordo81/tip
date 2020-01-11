@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Almuerzos;
+use App\Entity\Hotel;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +50,22 @@ class AlmuerzoRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getSum($startDate, $endDate)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.pax) AS suma, d.hotelName
+             FROM App\Entity\Almuerzos c
+             JOIN c.hotel d
+             WHERE c.date BETWEEN :startDate AND :endDate 
+             GROUP BY c.hotel
+             ORDER BY suma DESC
+            ');
+        $query->setParameters(array(
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ));
+        return $query->execute();
+    }
 }

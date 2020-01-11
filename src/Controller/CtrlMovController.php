@@ -177,7 +177,6 @@ class CtrlMovController extends AbstractController
         $startDate = new \DateTime('First Day of January');
         $endDate = new \DateTime('Last Day of December');
         $query = $this->getDoctrine()->getRepository(CtrlMov::class)->getSum($startDate, $endDate);
-        $data = $this->getDoctrine()->getRepository(CtrlMov::class)->getTotal($startDate, $endDate);
         
         $response = new Response();
         
