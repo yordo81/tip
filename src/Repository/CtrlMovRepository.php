@@ -83,7 +83,7 @@ class CtrlMovRepository extends ServiceEntityRepository
         $query->setParameters(array(
                     'id' => $id,
                     'startDate' => new \DateTime('First Day of January'),
-                    'endDate' => \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59"))
+                    'endDate' => new \DateTime('now')
                 ));
     return $query->execute();
     }

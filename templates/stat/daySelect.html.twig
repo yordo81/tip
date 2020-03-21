@@ -7,7 +7,7 @@
 <!--====================================================-->
 <!-- Bootstrap Modal-->
 <!--===================================================-->
-<form method="post" accept-charset="utf-8" action="/stat/selectDay" class="form" />
+<form method="post" accept-charset="utf-8" action="/stat/FilterDate" class="form" />
   <div class="modal fade" id="rangeDate" tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -21,7 +21,10 @@
               <div class="row">                    
                   <div class="col-sm-10 col-sm-offset-1" id="calendar-range">
                       <div class="input-daterange input-group" id="datepicker">                                                    
-                          <input type="date" class="form-control" name="fecha"  required/>
+                          <input type="date" class="form-control" name="fecha1"  required/>
+                      </div>
+                      <div class="input-daterange input-group" id="datepicker">                                                    
+                          <input type="date" class="form-control" name="fecha2"  required/>
                       </div>
                   </div>
               </div>

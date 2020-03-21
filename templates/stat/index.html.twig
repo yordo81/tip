@@ -7,7 +7,7 @@
 <!--====================================================-->
 <!-- Bootstrap Modal-->
 <!--===================================================-->
-<form method="post" accept-charset="utf-8" action="/stat/selectDay" class="form" />
+<form method="post" accept-charset="utf-8" action="/stat/FilterDate" class="form-inline" />
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -17,14 +17,13 @@
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-              <div class="modal-body">
-                  <div class="row">
-                      <div class="col-sm-10 col-sm-offset-1" id="calendar">
-                          <div class="input-daterange input-group" id="datepicker">                          
-                            <input type="date" class="form-control" name="fecha" required/>                                    
-                          </div>                
-                      </div>
-                  </div>
+              <div class="modal-body row justify-content-md-center">
+                <div class="col-sm-6 col-sm-offset-1 justify-content-md-center" id="calendar">                                           
+                  <label for="fecha1">Fecha inicial:</label>
+                  <input type="date" class="form-control" name="fecha1" required/>
+                  <label for="fecha2">Fecha final:</label>
+                  <input type="date" class="form-control" name="fecha2" required/>              
+                </div>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-red" data-dismiss="modal">Cerrar</button>
@@ -52,6 +51,12 @@
       <a href="/stat/byLastYear" class="dropdown-item">Año Anterior</a>
     </div>
   </div>
+  <br>
+  {% if fecha1 is defined %}
+  <h4>Usted esta viendo desde el: {{ fecha1| date("d/m/Y") }} hasta el: {{ fecha2| date("d/m/Y") }}</h4>
+  {% else %}
+  <h3></h3>
+  {% endif %}
 <table id="departments" class="table">
 <thead class="thead-light">
     <tr>

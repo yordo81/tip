@@ -53,7 +53,9 @@ class EmployeesRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
-            'SELECT SUM(c.amount) AS suma, e.name, e.lasname
+            'SELECT SUM(c.amount) AS suma, 
+                    e.name, 
+                    e.lasname
              FROM App\Entity\CtrlMov c
              JOIN c.employee e
              WHERE c.date BETWEEN :startDate AND :endDate 
@@ -63,6 +65,26 @@ class EmployeesRepository extends ServiceEntityRepository
         $query->setParameters(array(
             'startDate' => $startDate,
             'endDate' => $endDate
+        ));
+        return $query->execute();
+    }
+
+    //Total por empleado por mes
+    public function getSumbyMonth($startDate, $endDate, $id)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT SUM(c.amount) AS suma, 
+                    e.name, 
+                    e.lasname
+             FROM App\Entity\CtrlMov c
+             JOIN c.employee e
+             WHERE c.employee = :id AND c.date BETWEEN :startDate AND :endDate              
+            ');
+        $query->setParameters(array(
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'id' => $id
         ));
         return $query->execute();
     }

@@ -178,6 +178,57 @@ class EmployeesController extends AbstractController
     }
 
     /**
+     * @Route("/employees/byMonth/{id}")
+     */
+    //Estadistica del empleado por meses año actual
+    public function byMonthEmployee($id)
+    {
+        $month = array('January', 'February', 'March', 'April', 'May', 'June', 'July ',
+                       'August', 'September', 'October', 'November', 'December');
+
+        $resumen = [];
+                       
+        foreach($month as $mes){
+            $startDate = new \DateTime('First Day of'.$mes);
+            $endDate = new \DateTime('Last Day of'.$mes);
+
+            $amount = $this->getDoctrine()->getRepository(CtrlMov::class)->getSumAmount($id);
+            
+            $employees = $this->getDoctrine()->getRepository(Employees::class)->find($id);
+
+            $query = $this->getDoctrine()->getRepository(Employees::class)->getSumbyMonth($startDate, $endDate, $id);
+
+            foreach($query as $row) {
+                if($row['suma']): 
+                    $total = $row['suma'];
+                else:
+                    $total = "0";
+                endif;
+            };
+
+            if ($mes == "January")    { $mes = "Enero"; }
+            if ($mes == "February")   { $mes = "Febrero"; }
+            if ($mes == "March")      { $mes = "Marzo"; }
+            if ($mes == "April")      { $mes = "Abril"; }
+            if ($mes == "May")        { $mes = "Mayo"; }
+            if ($mes == "June")       { $mes = "Junio"; }
+            if ($mes == "July")       { $mes = "Julio"; }
+            if ($mes == "August")     { $mes = "Agosto"; }
+            if ($mes == "September")  { $mes = "Septiembre"; }
+            if ($mes == "October")    { $mes = "Octubre"; }
+            if ($mes == "November")   { $mes = "Noviembre"; }
+            if ($mes == "December")   { $mes = "Diciembre"; }
+            
+            $resn['mes'] = $mes;
+            $resn['total'] = $total;
+            
+            array_push($resumen, $resn);
+        };
+        
+        return $this->render('/employees/byMonthEmployee.html.twig', array('resumen' => $resumen, 'amount' => $amount, 'employees' => $employees));
+    }
+
+    /**
     * @Route("/employees/byMonthByDep/{id}")
     */
     public function byMonthByDep($id)

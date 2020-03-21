@@ -55,12 +55,15 @@ class AlmuerzoRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
-            'SELECT SUM(c.pax) AS suma, d.hotelName
-             FROM App\Entity\Almuerzos c
-             JOIN c.hotel d
-             WHERE c.date BETWEEN :startDate AND :endDate 
-             GROUP BY c.hotel
-             ORDER BY suma DESC
+            'SELECT Sum(a.pax),
+            h.hotelName,
+            a.date
+            FROM App\Entity\Almuerzos a,
+            JOIN a.hotel h
+            WHERE h.id = a.hotel AND a.date BETWEEN :startDate AND :endDate
+            GROUP BY
+            a.date,
+            a.hotel
             ');
         $query->setParameters(array(
             'startDate' => $startDate,

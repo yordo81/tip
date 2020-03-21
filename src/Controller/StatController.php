@@ -24,7 +24,12 @@ class StatController extends AbstractController
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
         
-        return $this->render('/stat/index.html.twig', array('query' => $query, 'data' => $data));
+        return $this->render('/stat/index.html.twig', array(
+            'query' => $query, 
+            'data' => $data,
+            'fecha1' => $startDate,
+            'fecha2' => $endDate
+        ));
     }
 
     /**
@@ -38,7 +43,12 @@ class StatController extends AbstractController
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
 
-        return $this->render('/stat/index.html.twig', array('query' => $query, 'data' => $data));
+        return $this->render('/stat/index.html.twig', array(
+            'query' => $query, 
+            'data' => $data,
+            'fecha1' => $startDate,
+            'fecha2' => $endDate
+        ));
     }
 
     /**
@@ -52,7 +62,12 @@ class StatController extends AbstractController
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
 
-        return $this->render('/stat/index.html.twig', array('query' => $query, 'data' => $data));
+        return $this->render('/stat/index.html.twig', array(
+            'query' => $query, 
+            'data' => $data,
+            'fecha1' => $startDate,
+            'fecha2' => $endDate
+        ));
     }
 
     /**
@@ -61,30 +76,39 @@ class StatController extends AbstractController
     public function byLastDay()
     {
         $startDate = new \DateTime('yesterday midnight');
-        var_dump($startDate);
         $endDate = new \DateTime('today midnight');
 
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
 
-        return $this->render('/stat/index.html.twig', array('query' => $query, 'data' => $data));
+        return $this->render('/stat/index.html.twig', array(
+            'query' => $query, 
+            'data' => $data,
+            'fecha1' => $startDate,
+            'fecha2' => $endDate
+        ));
     }
 
     /**
-     * @Route("/stat/selectDay") 
+     * @Route("/stat/FilterDate") 
      */
-    public function selectDay(Request $request)
+    public function FilterDate(Request $request)
     {
-        $fecha = ($request->request->get('fecha')) ? $request->request->get('fecha') : NULL;
-       
+        $fecha1 = ($request->request->get('fecha1')) ? $request->request->get('fecha1') : NULL;
+        $fecha2 = ($request->request->get('fecha2')) ? $request->request->get('fecha2') : NULL;
 
-        $startDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("".$fecha." 00:00:00"));
-        $endDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("".$fecha." 23:59:59"));
+        $startDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("".$fecha1." 00:00:00"));
+        $endDate = \DateTime::createFromFormat( "Y-m-d H:i:s", date("".$fecha2." 23:59:59"));
 
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
 
-        return $this->render('/stat/index.html.twig', array('query' => $query, 'data' => $data));
+        return $this->render('/stat/index.html.twig', array(
+            'query'  => $query, 
+            'data'   => $data, 
+            'fecha1' => $fecha1,
+            'fecha2' => $fecha2
+        ));
     }
 
     /**
@@ -95,12 +119,14 @@ class StatController extends AbstractController
         $startDate = new \DateTime('first day of this month midnight');
         $endDate = new \DateTime('now');
 
-        var_dump($startDate);
-        var_dump($endDate);
-
         $query = $this->getDoctrine()->getRepository(Employees::class)->getSum($startDate, $endDate);
         $data = $this->getDoctrine()->getRepository(CtrlMov::Class)->getTotal($startDate, $endDate);
 
-        return $this->render('/stat/index.html.twig', array('query' => $query, 'data' => $data));
+        return $this->render('/stat/index.html.twig', array(
+            'query' => $query, 
+            'data' => $data,
+            'fecha1' =>$startDate,
+            'fecha2' => $endDate
+        ));
     }
 }

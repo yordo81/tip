@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control de propina{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="dropdown show">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Opciones
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a href="/employees/new" class="dropdown-item">Agregar trabajador</a>
+      <a href="/employees/byDay" class="dropdown-item">Acumulado Diario</a>
+      <a href="/employees/byMonth" class="dropdown-item">Acumulado Mensual</a>
+      <a href="/employees/byYear" class="dropdown-item">Acumulado Anual</a>
+    </div>
+  </div>
+</div>
+<br>
+<h4>{{employees.name ~" "~ employees.lasname}}: 
+{% for querys in amount %}
+{{ querys.total|number_format(2,'.',',') }}
+{% endfor %}
+</h4>
+<table id="employees" class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Mes</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in resumen %}
+    <tr>
+     <td>{{row.mes}}</td>
+     <td>{{row.total| number_format(2,'.',',') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block javascripts %}
+ <script src="/js/main.js"></script>
+ <script src="/js/jquery-3.3.1.slim.min.js"></script>
+ <script src="/js/popper.min.js"></script>
+ <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+{% endblock %}

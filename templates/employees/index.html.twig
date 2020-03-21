@@ -3,6 +3,9 @@
 {% block title %}Control de propina{% endblock %}
 
 {% block body %}
+<style type="text/css">
+  #mydatatable_filter { float: right; }
+</style>
 <h2>Trabajadores</h2>
 <div class="dropdown show">
   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -15,11 +18,12 @@
     <a href="/employees/byYear" class="dropdown-item">Acumulado Anual</a>
   </div>
 </div>
-<table id="employees" class="table">
+{% if (employees) %}
+<!-- table id="employees" class="table" -->
+<table id="mydatatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
   <thead class="thead-light">
     <tr>
       <th scope="col">Nombre y Apellidos</th>
-      
       <th scope="col">Departamento</th>
       <th scope="col">Acciones</th>
     </tr>
@@ -27,17 +31,20 @@
   <tbody>
     {% for employee in employees %}
     <tr>
-     <td><a href="/employees/details/{{employee.id}}">{{employee.name}} {{ employee.lasname}}</a></td>
+     <td><a href="/employees/byMonth/{{employee.id}}">{{employee.name}} {{ employee.lasname}}</a></td>
      <td>{{employee.department}}</td>
 	  <td>
      <a href="/employees/details/{{employee.id}}" type="button" class="btn btn-outline-success">Propina</a>
      <a href="/employees/edit/{{employee.id}}" type="button" class="btn btn-outline-success">Editar</a>
      <a href="/employees/delete/{{employee.id}}" type="button" class="btn btn-outline-danger delete-department" data-id="#">Eliminar</a>
-    <td>
+    </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+{% else %}
+<div class="alert"><h3>No se ha introducido ningún dato aún</h3></div>
+{% endif %}
 
 {% endblock %}
 {% block javascripts %}
@@ -45,4 +52,11 @@
  <script src="/js/jquery-3.3.1.slim.min.js"></script>
  <script src="/js/popper.min.js"></script>
  <script src="/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+ <script src="/js/jquery.dataTables.min.js"></script>
+ <script src="/js/dataTables.bootstrap4.min.js"></script>
+ <script type="text/javascript">
+ $(document).ready( function () {
+    $('#mydatatable').DataTable();
+  } );
+ </script>
 {% endblock %}
