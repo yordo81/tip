@@ -94,7 +94,7 @@ class StatController extends AbstractController
     {
         $startDate = new \DateTime('first day of this month midnight');
         $endDate = new \DateTime('now');
-        
+
         var_dump($startDate);
         var_dump($endDate);
 
