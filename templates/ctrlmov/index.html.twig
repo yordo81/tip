@@ -95,7 +95,8 @@ $(document).ready(function(){
             // Remove the formatting to get integer data for summation
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '')*1 :
+                    parseFloat(i):
+					//i.replace(/[\$,]/g, '')*1 :
                     typeof i === 'number' ?
                         i : 0;
             };
@@ -118,7 +119,8 @@ $(document).ready(function(){
  
             // Update footer
             $( api.column( 1 ).footer() ).html(
-                formatNummber.new(parseFloat(pageTotal).toFixed(2),"$") +'  ' +'('+ formatNummber.new(parseFloat(total).toFixed(2),"$") +' total)'
+			formatNummber.new(parseFloat(pageTotal).toFixed(2),"$")
+                //formatNummber.new(parseFloat(pageTotal).toFixed(2),"$") +'  ' +'('+ formatNummber.new(parseFloat(total).toFixed(2),"$") +' total)'
             );
         },
         "responsive": true,
