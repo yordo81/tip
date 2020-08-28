@@ -20,3 +20,4 @@ bin
 config
 tests
 translations
+/phpunit.xml.dist
